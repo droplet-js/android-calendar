@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
+    compileOptions {
+        sourceCompatibility sourceCompatibilityVersion
+        targetCompatibility targetCompatibilityVersion
+    }
+
+    defaultConfig {
+        applicationId "io.github.v7lin.calendar"
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode VERSION_CODE
+        versionName "${VERSION_NAME}"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "androidx.appcompat:appcompat:${androidxAppcompatVersion}"
+    if (PUBLISH_TO_JFROG || PUBLISH_TO_JCENTER) {
+        implementation "${GROUP_ID}:calendar-collapsing-android:${VERSION_NAME}"
+    } else {
+        implementation project(':calendar-collapsing-android')
+    }
+
+    testImplementation "junit:junit:${junitVersion}"
+    androidTestImplementation "androidx.test:runner:${runnerVersion}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${espressoVersion}"
+}
